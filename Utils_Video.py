@@ -415,7 +415,7 @@ def track_and_label_objects(video_info):
                     rect.load_label(trackID,confidence, vid_classes.code_to_class_string(label), vid_classes.code_to_code_chall(vid_classes), label)
                     current_rect.load_labeled_rect(trackID, rect.true_confidence, confidence, rect.x1,rect.y1,rect.x2 ,rect.y2, vid_classes.code_to_class_string(label), vid_classes.code_to_code_chall(vid_classes), label)
                     print("current_rect track ID: %d"%current_rect.trackID)
-                    print("current_rect label: %s"%current_rect.label
+                    print("current_rect label: %s"%current_rect.label)
                     current_frame.append_labeled_rect(current_rect)
         else:
             trackID=1
