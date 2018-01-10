@@ -216,7 +216,7 @@ def recurrent_track_objects(video_info):
                 print("Len Previous Rects Frame: %d"%len(previous_frame.rects))
                 rect_idx=0
                 for rect in previous_frame.rects:
-                    print(len(current_frame.rects)
+                    print(len(current_frame.rects))
                     rect.add_delta(deltas_video[frame_info.frame-2][rect_idx][0],deltas_video[frame_info.frame-2][rect_idx][1],deltas_video[frame_info.frame-2][rect_idx][2],deltas_video[frame_info.frame-2][rect_idx][3])
                     current_rect = multiclass_rectangle.pop_max_iou(frame_info.rects,rect)
                     if current_rect is not None:
