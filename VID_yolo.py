@@ -42,7 +42,7 @@ def still_image_YOLO_DET(frames_list, frames_name, folder_path_det_frames,folder
     progress = progressbar.ProgressBar(widgets=[progressbar.Bar('=', '[', ']'), ' ',progressbar.Percentage(), ' ',progressbar.ETA()])
     for i in progress(range(0,len(frames_list))):
         # det_frame_name = frames_name[i]
-        #print frames_name[i]
+        #print(frames_name[i]
         det_frame_name = frames_name[i].replace('.jpg','_det.jpg')
         det_frame_name = folder_path_det_frames + det_frame_name
         det_frames_list.append(det_frame_name)
@@ -80,10 +80,10 @@ def print_YOLO_DET_result(det_results_list,folder_path_summary_result, file_path
                 out_file.write(str(tuple(line.strip().split(',')))+ os.linesep)
     print("Finished Loading Results ")
     print("Computing Final Mean Reasults..")
-    print "Class: " + df.class_name.max()
-    print "Max Value: " + df.score.max()
-    print "Min Value: " + df.score.min()
-    print "Avg Value: " + str(mean/len(df))
+    print("Class: " + df.class_name.max())
+    print("Max Value: " + df.score.max())
+    print("Min Value: " + df.score.min())
+    print("Avg Value: " + str(mean/len(df)))
     return
 
 ######### MAIN ###############
