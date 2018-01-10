@@ -119,7 +119,7 @@ def resize_saveImage(file_path, new_path):
     cv2.imshow('Resized Image',resized_img)
     cv2.waitKey(2)
 
-    if not check_image_with_pil(new_path):
+    # if not check_image_with_pil(new_path):
         #print 'ERROR: Rename & Save for: %s'%new_path
     if check_image_with_pil(file_path):
         os.remove(file_path)
@@ -138,7 +138,7 @@ def getpadd_Image(size_img_0, size_img_1, max_size_0, max_size_1):
     new_img_0=int(size_img_0/max_ratio)
     new_img_1=int(size_img_1/max_ratio)
     new_ratio=int(new_img_0/new_img_1)
-    if new_ratio is not int(max_ratio):
+    #if new_ratio is not int(max_ratio):
         #print "Ratio Error"
     padding[0] = max( (max_size_0 - new_img_0) / 2, 0 )
     padding[1] = max( (max_size_1 - new_img_1) / 2, 0 )
@@ -273,7 +273,7 @@ def get_orig_point(size_0_orig, size_1_orig, size_0_trasf, size_1_trasf, point, 
                     point = 0
                 if(point > size_1_orig):
                     point= size_1_orig
-        else: 
+        #else: 
             #print "Ratio Error Old %.2f : New %.2f"%(new_ratio,orig_ratio)
     # print 'Padding Point Img: %d'%padding 
     # print 'Ending Point Img: %d'%point
