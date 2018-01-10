@@ -88,7 +88,7 @@ def run_inception_once(picture_path):
             print('%s (score = %.5f)' % (human_string, score))
 
         # CHECK BEST LABEL
-        print "Best Label: %s with conf: %.5f"%(label_lines[top_k[0]],predictions[top_k[0]])
+        #print "Best Label: %s with conf: %.5f"%(label_lines[top_k[0]],predictions[top_k[0]])
 
         return label_lines[top_k[0]],predictions[top_k[0]]
 
@@ -152,27 +152,27 @@ def label_video(video_info, frames):
         softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
         idx=0
         for frame_info in progress(video_info):
-            print "Tracking Frame Nr: %d"%frame_info.frame
-            print len(frame_info.rects)
+            #print "Tracking Frame Nr: %d"%frame_info.frame
+            #print len(frame_info.rects)
             rect_id=0
             frame_info.filename = frames[idx]
             for rect in frame_info.rects:
                 
                 img= Image.open(frames[idx])
                 width, height= utils_image.get_Image_Size(frames[idx])
-                print rect.x1,rect.y1,rect.x2 ,rect.y2
+                #print rect.x1,rect.y1,rect.x2 ,rect.y2
                 x1,y1,x2,y2=utils_image.get_orig_rect(width, height, 640, 480, rect.x1,rect.y1,rect.x2 ,rect.y2)
-                print x1,y1,x2,y2
+                #print x1,y1,x2,y2
                 if(x1==x2):
                     x2=x2-10
                 if(y1==y2):
                     y2=y2-10    
                 cor = (min(x1,x2),min(y1,y2),max(x1,x2),max(y1,y2))
-                print cor
+                #print cor
                 cropped_img=img.crop(cor)
                 cropped_img_name=frames[0].split("/")[0]+"/cropped_rects/cropped_frame_%d_rect_%d.JPEG"%(frame_info.frame, rect_id)
                 cropped_img.save(cropped_img_name)
-                print "Frame: %d Rect: %d conf: %.2f"%(frame_info.frame, rect_id, rect.true_confidence)
+                #print "Frame: %d Rect: %d conf: %.2f"%(frame_info.frame, rect_id, rect.true_confidence)
                 if not tf.gfile.Exists(cropped_img_name):
                     tf.logging.fatal('File does not exist %s', cropped_img_name)
                     sys.exit()
@@ -190,7 +190,7 @@ def label_video(video_info, frames):
                     print('%s (score = %.5f)' % (human_string, score))
 
                 # CHECK BEST LABEL
-                print "Best Label: %s with conf: %.5f"%(vid_classes.code_to_class_string(label_lines[top_k[0]]),predictions[top_k[0]])
+                #print "Best Label: %s with conf: %.5f"%(vid_classes.code_to_class_string(label_lines[top_k[0]]),predictions[top_k[0]])
                 rect.set_rect_coordinates(x1,x2,y1,y2)
                 rect.set_label(predictions[top_k[0]], vid_classes.code_to_class_string(label_lines[top_k[0]]), top_k[0], label_lines[top_k[0]])
                 rect_id=rect_id+1
@@ -219,8 +219,8 @@ def recurrent_label_video(video_info, frames):
         idx=0
         video_labels=[]
         for frame_info in progress(video_info):
-            print "Tracking Frame Nr: %d"%frame_info.frame
-            print len(frame_info.rects)
+            #print "Tracking Frame Nr: %d"%frame_info.frame
+            #print len(frame_info.rects)
             rect_id=0
             frame_labels=[]
             frame_info.filename = frames[idx]
@@ -228,15 +228,15 @@ def recurrent_label_video(video_info, frames):
                 
                 img= Image.open(frames[idx])
                 width, height= utils_image.get_Image_Size(frames[idx])
-                print rect.x1,rect.y1,rect.x2 ,rect.y2
+                #print rect.x1,rect.y1,rect.x2 ,rect.y2
                 x1,y1,x2,y2=utils_image.get_orig_rect(width, height, 640, 480, rect.x1,rect.y1,rect.x2 ,rect.y2)
-                print x1,y1,x2,y2
+                #print x1,y1,x2,y2
                 cor = (min(x1,x2),min(y1,y2),max(x1,x2),max(y1,y2))
-                print cor
+                #print cor
                 cropped_img=img.crop(cor)
                 cropped_img_name=folder+"/cropped_rects/cropped_frame_%d_rect_%d.JPEG"%(frame_info.frame, rect_id)
                 cropped_img.save(cropped_img_name)
-                print "Frame: %d Rect: %d conf: %.2f"%(frame_info.frame, rect_id, rect.true_confidence)
+                #print "Frame: %d Rect: %d conf: %.2f"%(frame_info.frame, rect_id, rect.true_confidence)
                 if not tf.gfile.Exists(cropped_img_name):
                     tf.logging.fatal('File does not exist %s', cropped_img_name)
                     sys.exit()
@@ -256,19 +256,19 @@ def recurrent_label_video(video_info, frames):
                 if(len(video_labels)>0):
                     if(video_labels[idx-1][rect_id][0]==top_k[0]):
                         # CHECK BEST LABEL
-                        print "Best Label: %s with conf: %.5f"%(vid_classes.code_to_class_string(label_lines[top_k[0]]),predictions[top_k[0]])
+                        #print "Best Label: %s with conf: %.5f"%(vid_classes.code_to_class_string(label_lines[top_k[0]]),predictions[top_k[0]])
                         rect.set_rect_coordinates(x1,x2,y1,y2)
                         rect.set_label(predictions[top_k[0]], vid_classes.code_to_class_string(label_lines[top_k[0]]), top_k[0], label_lines[top_k[0]])
                         frame_labels.append((top_k[0], predictions[top_k[0]]))
                     else:
                         label = video_labels[idx-1][rect_id][0] 
-                        print "Best Label setted recurrently: %s "%(vid_classes.code_to_class_string(label_lines[label]))
+                        #print "Best Label setted recurrently: %s "%(vid_classes.code_to_class_string(label_lines[label]))
                         rect.set_rect_coordinates(x1,x2,y1,y2)
                         rect.set_label(video_labels[idx-1][rect_id][1], vid_classes.code_to_class_string(label_lines[label]), label, label_lines[label])
                         frame_labels.append((label, video_labels[idx-1][rect_id][1]))
                 else:
                     # CHECK BEST LABEL
-                    print "Best Label: %s with conf: %.5f"%(vid_classes.code_to_class_string(label_lines[top_k[0]]),predictions[top_k[0]])
+                    #print "Best Label: %s with conf: %.5f"%(vid_classes.code_to_class_string(label_lines[top_k[0]]),predictions[top_k[0]])
                     rect.set_rect_coordinates(x1,x2,y1,y2)
                     rect.set_label(predictions[top_k[0]], vid_classes.code_to_class_string(label_lines[top_k[0]]), top_k[0], label_lines[top_k[0]])
                     frame_labels.append((top_k[0], predictions[top_k[0]]))
