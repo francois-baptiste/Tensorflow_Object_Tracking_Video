@@ -205,7 +205,7 @@ def recurrent_label_video(video_info, frames):
     folder = decomposed_path[len(decomposed_path)-2]
     if not os.path.exists(folder+"/cropped_rects/"):
     	os.makedirs(folder+"/cropped_rects/")
-        print("Created Folder: %s"%(folder+"/cropped_rects/"))
+        #print("Created Folder: %s"%(folder+"/cropped_rects/"))
 
     # Loads label file, strips off carriage return
     label_lines = [line.rstrip() for line in tf.gfile.GFile(label_file)]
