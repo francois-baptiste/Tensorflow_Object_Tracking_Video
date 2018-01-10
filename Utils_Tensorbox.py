@@ -51,7 +51,7 @@ import cv2
 def NMS(rects,overlapThresh=0.3):
     # if there are no boxes, return an empty list
     if len(rects) == 0:
-        print "WARNING: Passed Empty Boxes Array"
+        #print "WARNING: Passed Empty Boxes Array"
         return []
  
     # initialize the list of picked indexes
@@ -147,8 +147,8 @@ def writeText(annotations, file):
 		file.write(detection + os.linesep)
 
 def saveTextResults(filename, annotations):
-    if not os.path.exists(filename):
-        print "Created File: "+ filename
+    # if not os.path.exists(filename):
+    #     print "Created File: "+ filename
     file = open(filename, 'w')
     for annotation in annotations:
         writeText(annotation,file)
@@ -204,7 +204,7 @@ def print_logits(logits):
             if logits[i][0][j]>higher:
                 higher = logits[i][0][j]
                 index = j
-    print str(index+1),str(higher)
+    #print str(index+1),str(higher)
     return index+1 , higher
 
 def get_multiclass_rectangles(H, confidences, boxes, rnn_len):
@@ -255,7 +255,7 @@ def get_multiclass_rectangles(H, confidences, boxes, rnn_len):
 	        r.score = rect.true_confidence
 	        r.silhouetteID=rect.label
 	        rects.append(r)
-    print len(rects),len(acc_rects)
+    #print len(rects),len(acc_rects)
     return rects, acc_rects
 
 # def still_image_TENSORBOX_multiclass(frames_list,path_video_folder,hypes_file,weights_file,pred_idl):
@@ -410,11 +410,11 @@ def bbox_det_TENSORBOX_multiclass(frames_list,path_video_folder,hypes_file,weigh
                 if len(rects)>0:
                     # pick = NMS(rects)
                     pick = rects
-                    print len(rects),len(pick)
+                    #print len(rects),len(pick)
                     current_frame.rects=pick
                     frameNr=frameNr+1
                     video_info.insert(len(video_info), current_frame)
-                    print len(current_frame.rects)
+                    #print len(current_frame.rects)
                 else: skipped=skipped+1 
             else: skipped=skipped+1 
 
