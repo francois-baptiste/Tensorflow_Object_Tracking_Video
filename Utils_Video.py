@@ -2,7 +2,7 @@ import os
 import cv2
 import progressbar
 import copy
-import utils_image
+import Utils_Image
 import Utils_Imagenet
 import Utils_Tensorbox
 import frame
