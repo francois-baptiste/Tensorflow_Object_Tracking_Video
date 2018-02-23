@@ -38,8 +38,7 @@ def get_Image_Size(path):
         im = Image.open(path)
         width, height = im.size
         return width, height
-    #else : 
-        #print 'ERROR: Image not exists in filesystem:%s'%path
+    else : print(('ERROR: Image not exists in filesystem:%s'%path))
 
 def change_extension(file_path, ext_1, ext_2):
     #Resize Cropping & Padding an image to the 640x480 pixel size
@@ -53,8 +52,7 @@ def change_extension(file_path, ext_1, ext_2):
     if check_image_with_pil(new_path):
         #print 'Rename & Save completed Correct for: %s'%new_path 
         os.remove(file_path)
-    #else : 
-        #print 'ERROR: Rename & Save for: %s'%new_path
+    else : print(('ERROR: Rename & Save for: %s'%new_path))
 
 
 
@@ -119,8 +117,8 @@ def resize_saveImage(file_path, new_path):
     cv2.imshow('Resized Image',resized_img)
     cv2.waitKey(2)
 
-    # if not check_image_with_pil(new_path):
-        #print 'ERROR: Rename & Save for: %s'%new_path
+    if not check_image_with_pil(new_path):
+        print(('ERROR: Rename & Save for: %s'%new_path))
     if check_image_with_pil(file_path):
         os.remove(file_path)
         #print 'Delected old File: %s'%file_path
@@ -138,8 +136,8 @@ def getpadd_Image(size_img_0, size_img_1, max_size_0, max_size_1):
     new_img_0=int(size_img_0/max_ratio)
     new_img_1=int(size_img_1/max_ratio)
     new_ratio=int(new_img_0/new_img_1)
-    #if new_ratio is not int(max_ratio):
-        #print "Ratio Error"
+    if new_ratio is not int(max_ratio):
+        print("Ratio Error")
     padding[0] = max( (max_size_0 - new_img_0) / 2, 0 )
     padding[1] = max( (max_size_1 - new_img_1) / 2, 0 )
 
@@ -171,7 +169,7 @@ def transform_point(size_img_0, size_img_1, max_size_0, max_size_1, point, xory)
         new_ratio=int(new_img_0/new_img_1)
         old_ratio=int(size_img_0/size_img_1)
         if new_ratio is not old_ratio:
-            #print "Ratio Error %d : %d"%(new_ratio,old_ratio)
+            print(("Ratio Error %d : %d"%(new_ratio,old_ratio)))
             if xory:
                # print "x point"
                padding = max( (max_size_0 - new_img_0) / 2, 0 )
@@ -221,8 +219,8 @@ def transform_point(size_img_0, size_img_1, max_size_0, max_size_1, point, xory)
 
 def get_orig_point(size_0_orig, size_1_orig, size_0_trasf, size_1_trasf, point, xory):
     orig_ratio=float(size_0_orig)/float(size_1_orig)
-    #print size_0_orig
-    #print size_1_orig
+    print(size_0_orig)
+    print(size_1_orig)
     new_ratio=-1
     max_ratio=float(max(float(size_0_orig/size_0_trasf),float(size_1_orig/size_1_trasf),1.0))
     # print 'Size W Img: %d'% size_img_0
@@ -251,9 +249,9 @@ def get_orig_point(size_0_orig, size_1_orig, size_0_trasf, size_1_trasf, point, 
                 point= size_1_orig
     else:   
         new_img_0=float(size_0_orig/max_ratio)
-        #print new_img_0
+        print(new_img_0)
         new_img_1=float(size_1_orig/max_ratio)
-        #print new_img_1
+        print(new_img_1)
         new_ratio=float(new_img_0/new_img_1)
         if new_ratio == orig_ratio:
             if xory:
@@ -273,8 +271,7 @@ def get_orig_point(size_0_orig, size_1_orig, size_0_trasf, size_1_trasf, point, 
                     point = 0
                 if(point > size_1_orig):
                     point= size_1_orig
-        #else: 
-            #print "Ratio Error Old %.2f : New %.2f"%(new_ratio,orig_ratio)
+        else: print(("Ratio Error Old %.2f : New %.2f"%(new_ratio,orig_ratio)))
     # print 'Padding Point Img: %d'%padding 
     # print 'Ending Point Img: %d'%point
     return point
@@ -313,7 +310,7 @@ def centroid_histogram(clt):
 
 def closest_colour(requested_colour):
     min_colours = {}
-    for key, name in webcolors.css3_hex_to_names.items():
+    for key, name in list(webcolors.css3_hex_to_names.items()):
         r_c, g_c, b_c = webcolors.hex_to_rgb(key)
         rd = (r_c - requested_colour[0]) ** 2
         gd = (g_c - requested_colour[1]) ** 2

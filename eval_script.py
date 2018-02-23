@@ -1,6 +1,6 @@
 import frame as fm
 import multiclass_rectangle
-import Utils
+import utils
 import progressbar
 import os
 import vid_classes
@@ -13,7 +13,7 @@ def parse_XML_to_data(xml_list_video):
     # image_multi_class= None
     # rectangle_multi = None
     progress = progressbar.ProgressBar(widgets=[progressbar.Bar('=', '[', ']'), ' ',progressbar.Percentage(), ' ',progressbar.ETA()])
-    for i in progress(range(0, len(xml_list_video))):
+    for i in progress(list(range(0, len(xml_list_video)))):
         # print "Iterating on Video:"+ str(xml_list_video[i][0][0])
         for j in range(0, len(xml_list_video[i])):
             # print "Iterating on Frame:"+ str(xml_list_video[i][j][0])
@@ -140,7 +140,7 @@ def save_best_overlap(val_bbox, output_bbox):
     len_output_bbox=len(output_bbox)
     count_missing_boxes=0
     with open("best_overlap.txt", 'a') as d:
-        for i in progress(range(0, len(val_bbox))):
+        for i in progress(list(range(0, len(val_bbox)))):
             for rect in val_bbox[i].rects:
                 if(len(output_bbox[i].rects)>0):
                     selected=multiclass_rectangle.pop_max_overlap(output_bbox[i].rects,rect)
@@ -148,14 +148,14 @@ def save_best_overlap(val_bbox, output_bbox):
                     d.write(str(val_bbox[i].frame)+' '+str(rect.label_chall)+ ' 0.5 '+str(selected.x1)+' '+str(selected.y1)+' '+str(selected.x2)+' '+str(selected.y2) + os.linesep)
                 else:
                     count_missing_boxes=count_missing_boxes+1
-    print "Total Frame Number: "+ str(len_val_bbox) 
-    print "Total Output Bounding Boxes: "+ str(len_output_bbox) 
-    print "Total Best Bounding Boxes: "+ str(count_best_bbox) 
-    print "Total Missing Bounding Boxes: "+ str(count_missing_boxes) 
-    print "Total False Positive Bounding Boxes: "+ str(len_output_bbox-count_best_bbox) 
-    print "BBox/Frame Number: "+ str(float(count_best_bbox)/float(len_val_bbox)) 
-    print "Missing BBox/Frame Number: "+ str(float(float(count_missing_boxes)/float(len_val_bbox)))
-    print "False Positive BBox/Frame Number: "+ str(float(float(len_output_bbox-count_best_bbox)/float(len_val_bbox)))
+    print(("Total Frame Number: "+ str(len_val_bbox))) 
+    print(("Total Output Bounding Boxes: "+ str(len_output_bbox))) 
+    print(("Total Best Bounding Boxes: "+ str(count_best_bbox))) 
+    print(("Total Missing Bounding Boxes: "+ str(count_missing_boxes))) 
+    print(("Total False Positive Bounding Boxes: "+ str(len_output_bbox-count_best_bbox))) 
+    print(("BBox/Frame Number: "+ str(float(count_best_bbox)/float(len_val_bbox)))) 
+    print(("Missing BBox/Frame Number: "+ str(float(float(count_missing_boxes)/float(len_val_bbox)))))
+    print(("False Positive BBox/Frame Number: "+ str(float(float(len_output_bbox-count_best_bbox)/float(len_val_bbox)))))
 
 def save_best_iou(val_bbox, output_bbox):
 
@@ -165,7 +165,7 @@ def save_best_iou(val_bbox, output_bbox):
     len_output_bbox=len(output_bbox)
     count_missing_boxes=0
     with open("best_iou.txt", 'a') as d:
-        for i in progress(range(0, len(val_bbox))):
+        for i in progress(list(range(0, len(val_bbox)))):
             for rect in val_bbox[i].rects:
                 if(len(output_bbox[i].rects)>0):
                     selected=multiclass_rectangle.pop_max_iou(output_bbox[i].rects,rect)
@@ -173,14 +173,14 @@ def save_best_iou(val_bbox, output_bbox):
                     d.write(str(val_bbox[i].frame)+' '+str(rect.label_chall)+ ' 0.5 '+str(selected.x1)+' '+str(selected.y1)+' '+str(selected.x2)+' '+str(selected.y2) + os.linesep)
                 else:
                     count_missing_boxes=count_missing_boxes+1
-    print "Total Frame Number: "+ str(len_val_bbox) 
-    print "Total Output Bounding Boxes: "+ str(len_output_bbox) 
-    print "Total Best Bounding Boxes: "+ str(count_best_bbox) 
-    print "Total Missing Bounding Boxes: "+ str(count_missing_boxes) 
-    print "Total False Positive Bounding Boxes: "+ str(len_output_bbox-count_best_bbox) 
-    print "BBox/Frame Number: "+ str(float(count_best_bbox)/float(len_val_bbox)) 
-    print "Missing BBox/Frame Number: "+ str(float(float(count_missing_boxes)/float(len_val_bbox)))
-    print "False Positive BBox/Frame Number: "+ str(float(float(len_output_bbox-count_best_bbox)/float(len_val_bbox)))
+    print(("Total Frame Number: "+ str(len_val_bbox))) 
+    print(("Total Output Bounding Boxes: "+ str(len_output_bbox))) 
+    print(("Total Best Bounding Boxes: "+ str(count_best_bbox))) 
+    print(("Total Missing Bounding Boxes: "+ str(count_missing_boxes))) 
+    print(("Total False Positive Bounding Boxes: "+ str(len_output_bbox-count_best_bbox))) 
+    print(("BBox/Frame Number: "+ str(float(count_best_bbox)/float(len_val_bbox)))) 
+    print(("Missing BBox/Frame Number: "+ str(float(float(count_missing_boxes)/float(len_val_bbox)))))
+    print(("False Positive BBox/Frame Number: "+ str(float(float(len_output_bbox-count_best_bbox)/float(len_val_bbox)))))
 
 
 def main():

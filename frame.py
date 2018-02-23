@@ -128,7 +128,7 @@ class Frame_Info(object):
 
 def saveVideoResults(filename, annotations):
     if not os.path.exists(filename):
-        print "Created File: "+ filename
+        print(("Created File: "+ filename))
     file = open(filename, 'w')
     for annotation in annotations:
         frame = -1

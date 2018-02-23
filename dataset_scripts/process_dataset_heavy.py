@@ -9,7 +9,7 @@ import progressbar
 from frame import Frame_Info
 from multiclass_rectangle import Rectangle_Multiclass
 import utils_image
-import Utils
+import utils
 import vid_classes
 from vid_classes import Classes_List as CL
 
@@ -328,7 +328,7 @@ def main():
 
     bb_XML_file_list=[]
     create_summary_files(args.dataset_path)
-    bb_XML_file_list= Utils.get_Files_List(args.bb_folder)
+    bb_XML_file_list= utils.get_Files_List(args.bb_folder)
     parse_XML_to_multiclass_txt(bb_XML_file_list, args.val_folder, args.dataset_path)
     parse_XML_to_singleclass_txt(bb_XML_file_list, args.val_folder, args.dataset_path)
 

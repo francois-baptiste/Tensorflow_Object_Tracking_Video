@@ -1,5 +1,5 @@
 import copy 
-import Utils_Video
+import utils_video
 
 #####################################################################################################################################################################
 ########################## CLASS AND FUNCTIONS DEFINED TO USE WITH TENSORBOX (MAINLY TO PARSE & WRITE .IDL FILE AND MANAGE RESULTS) #################################

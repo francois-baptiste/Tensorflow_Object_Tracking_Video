@@ -3,8 +3,8 @@
 import argparse
 import utils_image
 import utils_video
-import Utils_Tensorbox
-import Utils_Imagenet
+import utils_tensorbox
+import utils_imagenet
 import frame
 import vid_classes
 import progressbar
@@ -51,11 +51,11 @@ def main():
         utils_image.resizeImage(image_path)
     utils_image.resizeImage(-1)
 
-    video_info=Utils_Tensorbox.bbox_det_TENSORBOX_multiclass(frame_tensorbox, path_video_folder, args.hypes, args.weights, pred_idl)
+    video_info=utils_tensorbox.bbox_det_TENSORBOX_multiclass(frame_tensorbox, path_video_folder, args.hypes, args.weights, pred_idl)
     tracked_video=utils_video.recurrent_track_objects(video_info)
     # tracked_video=utils_video.track_objects(video_info)
-    # labeled_video=Utils_Imagenet.label_video(tracked_video, frame_inception)
-    labeled_video=Utils_Imagenet.recurrent_label_video(tracked_video, frame_inception)
+    # labeled_video=utils_imagenet.label_video(tracked_video, frame_inception)
+    labeled_video=utils_imagenet.recurrent_label_video(tracked_video, frame_inception)
     # tracked_video=utils_video.track_objects(video_info)
 
     # tracked_video=utils_video.track_and_label_objects(video_info)
@@ -66,7 +66,7 @@ def main():
     # utils_video.make_tracked_video(args.output_name, labeled_video)
     end = time.time()
 
-    print("Elapsed Time:%d Seconds"%(end-start))
+    print(("Elapsed Time:%d Seconds"%(end-start)))
     print("Running Completed with Success!!!")
 
 if __name__ == '__main__':

@@ -2,7 +2,6 @@
 
 import tensorflow as tf
 import json
-import subprocess
 from scipy.misc import imread
 import numpy as np
 import sys
@@ -13,21 +12,17 @@ import sys
 sys.path.insert(0, 'TENSORBOX')
 
 # Original
-from utils import googlenet_load, train_utils, rect_multiclass
+from utils import googlenet_load
 from utils.annolist import AnnotationLib as al
-from utils.rect import Rect
 #Modified
 
 #### My import
 
-import vid_classes
 import frame
 import multiclass_rectangle
 import utils_image
-import utils_video
 import progressbar
 import os
-import cv2
 
 ###Best higher_dyn -0.1 | NMS overlap 0.9
 
@@ -51,7 +46,7 @@ import cv2
 def NMS(rects,overlapThresh=0.3):
     # if there are no boxes, return an empty list
     if len(rects) == 0:
-        #print "WARNING: Passed Empty Boxes Array"
+        print("WARNING: Passed Empty Boxes Array")
         return []
  
     # initialize the list of picked indexes
@@ -85,7 +80,7 @@ def NMS(rects,overlapThresh=0.3):
         pick.append(i)
         suppress = [last]
         # loop over all indexes in the indexes list
-        for pos in xrange(0, last):
+        for pos in range(0, last):
             # grab the current index
             j = idxs[pos]
 
@@ -147,8 +142,8 @@ def writeText(annotations, file):
 		file.write(detection + os.linesep)
 
 def saveTextResults(filename, annotations):
-    # if not os.path.exists(filename):
-    #     print "Created File: "+ filename
+    if not os.path.exists(filename):
+        print(("Created File: "+ filename))
     file = open(filename, 'w')
     for annotation in annotations:
         writeText(annotation,file)
@@ -204,7 +199,7 @@ def print_logits(logits):
             if logits[i][0][j]>higher:
                 higher = logits[i][0][j]
                 index = j
-    #print str(index+1),str(higher)
+    print((str(index+1),str(higher)))
     return index+1 , higher
 
 def get_multiclass_rectangles(H, confidences, boxes, rnn_len):
@@ -255,7 +250,7 @@ def get_multiclass_rectangles(H, confidences, boxes, rnn_len):
 	        r.score = rect.true_confidence
 	        r.silhouetteID=rect.label
 	        rects.append(r)
-    #print len(rects),len(acc_rects)
+    print((len(rects),len(acc_rects)))
     return rects, acc_rects
 
 # def still_image_TENSORBOX_multiclass(frames_list,path_video_folder,hypes_file,weights_file,pred_idl):
@@ -388,12 +383,12 @@ def bbox_det_TENSORBOX_multiclass(frames_list,path_video_folder,hypes_file,weigh
     
         #### Starting Evaluating the images
         
-        print("%d Frames to DET"%len(frames_list))
+        print(("%d Frames to DET"%len(frames_list)))
         
         progress = progressbar.ProgressBar(widgets=[progressbar.Bar('=', '[', ']'), ' ',progressbar.Percentage(), ' ',progressbar.ETA()])
         frameNr=0
         skipped=0
-        for i in progress(range(0, len(frames_list))):
+        for i in progress(list(range(0, len(frames_list)))):
 
             current_frame = frame.Frame_Info()
             current_frame.frame=frameNr
@@ -410,15 +405,15 @@ def bbox_det_TENSORBOX_multiclass(frames_list,path_video_folder,hypes_file,weigh
                 if len(rects)>0:
                     # pick = NMS(rects)
                     pick = rects
-                    #print len(rects),len(pick)
+                    print((len(rects),len(pick)))
                     current_frame.rects=pick
                     frameNr=frameNr+1
                     video_info.insert(len(video_info), current_frame)
-                    #print len(current_frame.rects)
+                    print((len(current_frame.rects)))
                 else: skipped=skipped+1 
             else: skipped=skipped+1 
 
-        print("Skipped %d Black Frames"%skipped)
+        print(("Skipped %d Black Frames"%skipped))
 
     #### END TENSORBOX CODE ###
 

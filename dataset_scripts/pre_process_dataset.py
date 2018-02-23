@@ -10,7 +10,7 @@ import glob
 from frame import Frame_Info
 from multiclass_rectangle import Rectangle_Multiclass
 import utils_image
-import Utils
+import utils
 import vid_classes
 from vid_classes import Classes_List as CL
 

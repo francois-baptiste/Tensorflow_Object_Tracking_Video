@@ -3,7 +3,7 @@ import os
 def checkPath(path):
     for dirname, dirnames, filenames in os.walk(path):
         for filename in filenames:
-            print filename
+            print(filename)
 
 def get_Files_List(path):
     files_list=[]

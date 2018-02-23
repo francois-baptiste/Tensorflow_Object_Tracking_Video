@@ -1,14 +1,16 @@
 # Import the necessary packages
 
+import os
+import sys
+os.chdir(os.path.dirname(sys.argv[0]))
+
 import numpy as np
 import cv2
-import os
 import time
 import progressbar
 import pandas
-import sys
 import argparse
-import Utils_Video
+import utils_video
 
 # Import DET Alg package
 sys.path.insert(0, 'YOLO')
@@ -31,18 +33,18 @@ def still_image_YOLO_DET(frames_list, frames_name, folder_path_det_frames,folder
     print("Starting DET Phase")
     if not os.path.exists(folder_path_det_frames):
         os.makedirs(folder_path_det_frames)
-        print("Created Folder: %s"%folder_path_det_frames)
+        print(("Created Folder: %s"%folder_path_det_frames))
     if not os.path.exists(folder_path_det_result):
         os.makedirs(folder_path_det_result)
-        print("Created Folder: %s"%folder_path_det_result)
+        print(("Created Folder: %s"%folder_path_det_result))
     yolo = YOLO_small_tf.YOLO_TF()
     det_frames_list=[]
     det_result_list=[]
-    print("%d Frames to DET"%len(frames_list))
+    print(("%d Frames to DET"%len(frames_list)))
     progress = progressbar.ProgressBar(widgets=[progressbar.Bar('=', '[', ']'), ' ',progressbar.Percentage(), ' ',progressbar.ETA()])
-    for i in progress(range(0,len(frames_list))):
+    for i in progress(list(range(0,len(frames_list)))):
         # det_frame_name = frames_name[i]
-        #print(frames_name[i]
+        #print frames_name[i]
         det_frame_name = frames_name[i].replace('.jpg','_det.jpg')
         det_frame_name = folder_path_det_frames + det_frame_name
         det_frames_list.append(det_frame_name)
@@ -64,14 +66,14 @@ def print_YOLO_DET_result(det_results_list,folder_path_summary_result, file_path
     results_list=[]
     if not os.path.exists(folder_path_summary_result):
         os.makedirs(folder_path_summary_result)
-        print("Created Folder: %s"%folder_path_summary_result)
+        print(("Created Folder: %s"%folder_path_summary_result))
     print("Starting Loading Results ")
     progress = progressbar.ProgressBar(widgets=[progressbar.Bar('=', '[', ']'), ' ',progressbar.Percentage(), ' ',progressbar.ETA()])
     names=['class_name', 'x1','y1','x2','y2','score']
     df = pandas.DataFrame(columns=names)
     mean=0.0
     with open(file_path_summary_result, "w") as out_file:
-        for i in progress(range(0,len(det_results_list))):
+        for i in progress(list(range(0,len(det_results_list)))):
         #df.append(pandas.read_csv(det_results_list[i], sep=',',names=names, encoding="utf8"))
         #results_list.append(pandas.read_csv(det_results_list[i], sep=',',names=names, encoding="utf8"))
             for line in open(det_results_list[i], "r"):
@@ -80,10 +82,10 @@ def print_YOLO_DET_result(det_results_list,folder_path_summary_result, file_path
                 out_file.write(str(tuple(line.strip().split(',')))+ os.linesep)
     print("Finished Loading Results ")
     print("Computing Final Mean Reasults..")
-    print("Class: " + df.class_name.max())
-    print("Max Value: " + df.score.max())
-    print("Min Value: " + df.score.min())
-    print("Avg Value: " + str(mean/len(df)))
+    print(("Class: " + df.class_name.max()))
+    print(("Max Value: " + df.score.max()))
+    print(("Min Value: " + df.score.min()))
+    print(("Avg Value: " + str(mean/len(df))))
     return
 
 ######### MAIN ###############
@@ -105,14 +107,14 @@ def main():
     parser.add_argument('--path_video', required=True, type=str)
     args = parser.parse_args()
 
-    frame_list, frames = Utils_Video.extract_frames(args.path_video, args.perc)
+    frame_list, frames = utils_video.extract_frames(args.path_video, args.perc)
     det_frame_list,det_result_list=still_image_YOLO_DET(frame_list, frames, args.det_frames_folder,args.det_result_folder)
-    Utils_Video.make_video_from_list(args.output_name, det_frame_list)
+    utils_video.make_video_from_list(args.output_name, det_frame_list)
     print_YOLO_DET_result(det_result_list,args.result_folder, args.summary_file)
 
     end = time.time()
 
-    print("Elapsed Time:%d Seconds"%(end-start))
+    print(("Elapsed Time:%d Seconds"%(end-start)))
     print("Running Completed with Success!!!")
 
 
